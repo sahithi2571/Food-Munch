@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOOD MUNCH - Payment</title>
+    <link  rel="stylesheet" href="foodmunch.css">
+    <style>
+        /* CSS for payment form */
+        .payment-section {
+            background-color: #333; /* Dark background */
+            color: white; /* White text color */
+            padding: 20px;
+            border-radius: 10px;
+            width: 60%;
+            margin: auto;
+            border: 1px solid black;
+        }
+
+        /* Styling labels and inputs */
+        label {
+            color: white; /* White color for labels */
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #444; /* Darker background for inputs */
+            color: white; /* White text for inputs */
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav>
+        <div class="logo">
+            <img src="img.logo" align="left" height="100 px" width="100px">
+        </div>
+        <div class="home">
+            <a href="foodmunch.html">HOME</a> 
+            <a href="menu.html">MENU</a>
+            <a href="feedback.html">FEEDBACK</a>
+            <a href="about.html">ABOUT US</a>
+            <a href="contactus.html">CONTACT US</a>
+            <a href="cart.html">CART</a>
+            <a href="payments.html">PAYMENT</a>
+        </div>
+    </nav>
+</header>
+
+<div class="payment-section">
+    <h2>Payment Details</h2>
+    <div class="cart-summary">
+        <h3>Your Total is: <span id="total-amount">RS.0</span></h3>
+    </div>
+    <form id="payment-form">
+        <label for="cardholder-name">Cardholder Name:</label>
+        <input type="text" id="cardholder-name" name="cardholder-name" required>
+
+        <label for="card-number">Card Number:</label>
+        <input type="text" id="card-number" name="card-number" required pattern="\d{16}" maxlength="16">
+
+        <label for="expiry-date">Expiry Date:</label>
+        <input type="text" id="expiry-date" name="expiry-date" required placeholder="MM/YY" pattern="\d{2}/\d{2}">
+
+        <label for="cvv">CVV:</label>
+        <input type="text" id="cvv" name="cvv" required pattern="\d{3}" maxlength="3">
+
+        <button type="submit">Pay</button>
+    </form>
+</div>
+
+<footer>
+    <p>&copy; 2024 Food Munch. All rights reserved.</p>
+</footer>
+
+<script>
+    function loadCartTotal() {
+        let cart = localStorage.getItem("cart");
+        let pricing = localStorage.getItem("pricing");
+        cart = JSON.parse(cart);
+        pricing = JSON.parse(pricing);
+
+        let total = 0;
+        cart.forEach(element => {
+            const itemPrice = pricing.find(p => p[0] === element[0])[1];
+            total += (itemPrice * element[1]);
+        });
+
+        document.getElementById("total-amount").innerText = "$" + total.toFixed(2);
+    }
+
+    window.onload = loadCartTotal;
+
+    document.getElementById("payment-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        alert("Payment processed successfully!");
+        localStorage.clear(); 
+        window.location.href = "foodmunch.html"; 
+    });
+</script>
+</body>
+</html>
